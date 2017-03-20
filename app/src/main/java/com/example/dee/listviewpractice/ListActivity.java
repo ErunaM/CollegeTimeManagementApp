@@ -11,7 +11,7 @@ public class ListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-        String[] foods = {"Bacon", "Pizza", "Salmon", "KFC", "Chicken"};
+        String[] foods = {"Monday", "Tuesday", "Wensday", "Thursday", "Friday", "Saturday", "Sunday"};
         // adapter to convert my string[] to list items
         ListAdapter listAdapter = new CustomAdapter(this, foods);
         ListView listView = (ListView)findViewById(R.id.jadeListView);
