@@ -3,10 +3,23 @@ package com.example.dee.listviewpractice;
 /**
  * Created by Dee on 21/03/2017.
  */
-
+//Day class will hold my mon-sunday days will also store the MainAssignment to display in my first listview
 public class Days {
     private String dayName;
     private String mainAssignment;
+    private int dayId; // hold id in our data base
+
+    public int getDayId() {
+        return dayId;
+    }
+
+    public void setDayId(int dayId) {
+        this.dayId = dayId;
+    }
+
+    public Days()
+    {}
+
 
     public String getDays() {
         return dayName;

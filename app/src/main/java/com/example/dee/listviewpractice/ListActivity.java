@@ -5,17 +5,25 @@ import android.os.Bundle;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-public class ListActivity extends AppCompatActivity {
+import java.util.ArrayList;
 
+public class ListActivity extends AppCompatActivity {
+    private MyDBHandler dba;
+    private Days myFood;
+    private ArrayList<Days> dbDays = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-        String[] foods = {"Monday", "Tuesday", "Wensday", "Thursday", "Friday", "Saturday", "Sunday"};
+
+
+
+
         // adapter to convert my string[] to list items
-        ListAdapter listAdapter = new CustomAdapter(this, foods);
+        //ListAdapter listAdapter = new CustomAdapter(this, foods);
         ListView listView = (ListView)findViewById(R.id.jadeListView);
-        listView.setAdapter(listAdapter);
+        //listView.setAdapter(listAdapter);
 
     }
+
 }

@@ -9,6 +9,10 @@ import android.database.Cursor;
 import android.content.Context;
 import android.content.ContentValues;
 
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+
 public class MyDBHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "days.db";
@@ -17,22 +21,24 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_DAYASSIGNMENT = "mainAssignment";
     public static final String COLUMN_PRODUCTNAME = "dayName";
+    private final ArrayList<Days> dayList = new ArrayList<>();
 
-    public MyDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, DATABASE_NAME, factory, DATABASE_VERSION);
+    public MyDBHandler(Context context) {
+        super(context, Constants.DATABASE_NAME, null, Constants.DATABASE_VERSION);
     }
 
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String query = "CREATE TABLE " + TABLE_PRODUCTS + "(" + COLUMN_ID +  " INTEGER PRIMARY KEY AUTOINCREMENT " + COLUMN_PRODUCTNAME+ " TEXT " + COLUMN_DAYASSIGNMENT + " TEXT" + ");";
+        String query = "CREATE TABLE " + Constants.TABLE_NAME + "(" + Constants.KEY_ID +  " INTEGER PRIMARY KEY, " + Constants.DAY_NAME + " TEXT, " +
+                Constants.Main_Assignment_NAME + " TEXT" + ");";
         sqLiteDatabase.execSQL(query);
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCTS);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 
@@ -41,10 +47,10 @@ public class MyDBHandler extends SQLiteOpenHelper {
     {
         // set a bunch of different values for different columes (list of values)
         ContentValues values = new ContentValues();
-        values.put(COLUMN_PRODUCTNAME, day.getDays());
-        values.put(COLUMN_DAYASSIGNMENT, day.getMainAssignment());
+        values.put(Constants.DAY_NAME, day.getDays());
+        values.put(Constants.Main_Assignment_NAME, day.getMainAssignment());
         SQLiteDatabase sqLiteDatabase = getWritableDatabase(); // database we writing too
-        sqLiteDatabase.insert(TABLE_PRODUCTS,null,values);//Table,null,values (inserts new row)
+        sqLiteDatabase.insert(Constants.TABLE_NAME,null,values);//Table,null,values (inserts new row)
         sqLiteDatabase.close();
     }
 
@@ -55,7 +61,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DELETE FROM " + TABLE_PRODUCTS + " WHERE " + COLUMN_DAYASSIGNMENT + "=\"" + mainAssignment + "\";");
 
     }
-    //print out database as a string
+    //print out database as a string Not working how i want it
     public String databaseToString()
     {
         String dbString = "";
@@ -79,4 +85,29 @@ public class MyDBHandler extends SQLiteOpenHelper {
         sqLiteDatabase.close();
         return dbString;
     }
+    public ArrayList<Days> getDays()
+    {
+        dayList.clear();
+        SQLiteDatabase dba = this.getReadableDatabase();
+        Cursor cursor = dba.query(Constants.TABLE_NAME, new String[]{Constants.KEY_ID, Constants.DAY_NAME,
+                Constants.Main_Assignment_NAME},null,null,null,null, Constants.DAY_NAME + " DESC ");
+        //Looping
+        if(cursor.moveToFirst())
+        {
+            do{
+                Days day = new Days();
+                day.setDays(cursor.getString(cursor.getColumnIndex(Constants.DAY_NAME)));
+                day.setMainAssignment(cursor.getString(cursor.getColumnIndex(Constants.Main_Assignment_NAME)));
+                day.setDayId(cursor.getInt(cursor.getColumnIndex(Constants.KEY_ID)));
+
+
+                dayList.add(day);
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        dba.close();
+
+        return dayList;
+    }
+
 }
