@@ -9,20 +9,42 @@ import java.util.ArrayList;
 
 public class ListActivity extends AppCompatActivity {
     private MyDBHandler dba;
-    private Days myFood;
+    private Days days;
     private ArrayList<Days> dbDays = new ArrayList<>();
+    private CustomAdapter dayAdapter;
+    private ListView listview;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+        listview = (ListView)findViewById(R.id.jadeListView);
+
+        refreshData();
+
+    }
+    private void refreshData() {
+
+        dbDays.clear();
+        dba = new MyDBHandler(getApplicationContext());
+
+        ArrayList<Days> DaysFromDB = dba.getDays();
 
 
+        for(int i = 0; i < DaysFromDB.size(); i++)
+        {
+            String name = DaysFromDB.get(i).getDays();
+            String mainAssignment = DaysFromDB.get(i).getMainAssignment();
 
+            days = new Days();
+            days.setDays(name);
+            days.setMainAssignment(mainAssignment);
+            dbDays.add(days);
+        }
+        dba.close();
 
-        // adapter to convert my string[] to list items
-        //ListAdapter listAdapter = new CustomAdapter(this, foods);
-        ListView listView = (ListView)findViewById(R.id.jadeListView);
-        //listView.setAdapter(listAdapter);
+        //Setup adapter
+        dayAdapter = new CustomAdapter(getApplicationContext(),dbDays);
+        listview.setAdapter(dayAdapter);
 
     }
 

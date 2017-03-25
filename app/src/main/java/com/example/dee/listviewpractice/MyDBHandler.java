@@ -58,7 +58,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public void deleteItem(String mainAssignment)
     {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase(); // database we writing too
-        sqLiteDatabase.execSQL("DELETE FROM " + TABLE_PRODUCTS + " WHERE " + COLUMN_DAYASSIGNMENT + "=\"" + mainAssignment + "\";");
+        sqLiteDatabase.execSQL("DELETE FROM " + Constants.TABLE_NAME + " WHERE " + Constants.Main_Assignment_NAME + "=\"" + mainAssignment + "\";");
 
     }
     //print out database as a string Not working how i want it

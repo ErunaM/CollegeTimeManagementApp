@@ -16,13 +16,18 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+
 /**
  * Created by Dee on 18/03/2017.
  */
 
-class CustomAdapter extends ArrayAdapter<String>{
-    public CustomAdapter( Context context, String[] foods) {
-        super(context, R.layout.custom_row, foods);
+class CustomAdapter extends ArrayAdapter<Days>{
+    private ArrayList<Days> dayData;
+    public CustomAdapter( Context context, ArrayList<Days> data) {
+        super(context, R.layout.custom_row, data);
+        dayData = data;
     }
 
     ///Layout of strings
@@ -32,11 +37,11 @@ class CustomAdapter extends ArrayAdapter<String>{
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
         View customView = layoutInflater.inflate(R.layout.custom_row, parent, false); // creates the row
 
-        String singleFoodItem = getItem(position);
+        String dayName = dayData.get(position).getDays();
         TextView textView = (TextView)customView.findViewById(R.id.textViewList);
         ImageView imageView = (ImageView)customView.findViewById(R.id.listicons);
 
-        textView.setText(singleFoodItem);
+        textView.setText(dayName);
         imageView.setImageResource(R.mipmap.ic_launcher);
         return customView;
     }
