@@ -27,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         tempButton = (Button)findViewById(R.id.tempButtons);
 
+
+
         tempButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

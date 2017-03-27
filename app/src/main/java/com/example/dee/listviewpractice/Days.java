@@ -7,6 +7,7 @@ package com.example.dee.listviewpractice;
 public class Days {
     private String dayName;
     private String mainAssignment;
+    public Assignments[] assignmentArray[]; // used to hold all my assignments in a day
     private int dayId; // hold id in our data base
 
     public int getDayId() {
